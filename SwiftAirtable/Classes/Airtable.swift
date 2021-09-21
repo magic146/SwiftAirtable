@@ -462,7 +462,7 @@ public struct Airtable: Equatable, Codable {
 
 
 extension DateFormatter {
-    static let airtableDateFormatter: DateFormatter = {
+    public static let airtableDateFormatter: DateFormatter = {
         // We need to extract the date from the string saved in the JSON
         let dateFormatter = DateFormatter()
         
