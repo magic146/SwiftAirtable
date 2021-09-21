@@ -219,12 +219,10 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = U5ZZWN44AH;
 						LastSwiftMigration = 1250;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = U5ZZWN44AH;
 						LastSwiftMigration = 1250;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -506,7 +504,7 @@
 			baseConfigurationReference = 77D0283D7E5F3B5FCDC2B757 /* Pods-SwiftAirtable_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = U5ZZWN44AH;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SwiftAirtable/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -523,7 +521,7 @@
 			baseConfigurationReference = 88A69EF500A1F2E0D80E11DD /* Pods-SwiftAirtable_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = U5ZZWN44AH;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SwiftAirtable/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -539,7 +537,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D49F686573D0D8D09264120A /* Pods-SwiftAirtable_Tests.debug.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = U5ZZWN44AH;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -562,7 +560,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBE8D9F06B14D86FE49D8D5B /* Pods-SwiftAirtable_Tests.release.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = U5ZZWN44AH;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
