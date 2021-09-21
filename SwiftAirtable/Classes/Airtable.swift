@@ -219,10 +219,11 @@ public struct Airtable: Equatable, Codable {
     }
     
     // MARK: - Public
-    public func fetchAll<T>(table: String, with completion: @escaping (_ objects: [T], _ error: Error?) -> Void) where T: AirtableObject {
-        
+    public func fetchAll<T>(table: String, offset: String? = nil, with completion: @escaping (_ objects: [T], _ offset: String?, _ error: Error?) -> Void) where T: AirtableObject {
+
         // Mount URL
-        let stringUrl = self.apiBaseUrl + "/" + table.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        let stringUrl = self.apiBaseUrl + "/" + table.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! +
+            (offset == nil ? "" : "?offset=\(offset!)")
         guard let url =  URL(string: stringUrl) else {
             print("Invalid URL \(stringUrl)")
             return
@@ -230,9 +231,9 @@ public struct Airtable: Equatable, Codable {
         // Create task
         let task = self.readAuthorizedSession.dataTask(with: url) { (data, response, error) in
             if let error = error {
-                completion([], error)
+                completion([], nil, error)
             } else if let data = data {
-                self.handleFetchResponse(with: data, completion: completion)
+                self.handleFetchResponse(url: url, data: data, completion: completion)
             }
         }
         // Start task
@@ -251,7 +252,9 @@ public struct Airtable: Equatable, Codable {
             if let error = error {
                 completion([], error)
             } else if let data = data {
-                self.handleFetchResponse(with: data, completion: completion)
+                self.handleFetchResponse(url: url, data: data) { objects, _, error in
+                    completion(objects, error)
+                }
             }
         }
         // Start task
@@ -278,7 +281,7 @@ public struct Airtable: Equatable, Codable {
                 if let error = error {
                     completion(nil, error)
                 } else if let data = data {
-                    self.handleFetchResponse(with: data) { (objects, error) in
+                    self.handleFetchResponse(url: url, data: data) { (objects, _, error) in
                         completion(objects.first, error)
                     }
                 }
@@ -311,7 +314,7 @@ public struct Airtable: Equatable, Codable {
                 if let error = error {
                     completion(nil, error)
                 } else if let data = data {
-                    self.handleFetchResponse(with: data) { (objects, error) in
+                    self.handleFetchResponse(url: url, data: data) { (objects, _, error) in
                         completion(objects.first, error)
                     }
                 }
@@ -355,32 +358,32 @@ public struct Airtable: Equatable, Codable {
         
     }
     // MARK: - Private
-    fileprivate func handleFetchResponse<T>(with data: Data, completion: @escaping (_ objects: [T], _ error: Error?) -> Void) where T: AirtableObject {
+    fileprivate func handleFetchResponse<T>(url: URL, data: Data, completion: @escaping (_ objects: [T], _ offset: String?, _ error: Error?) -> Void) where T: AirtableObject {
         do {
             // Downloaded Variables
             let jsonValue = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            let offset = jsonValue?["offset"] as? String
             if let results = jsonValue?["records"] as? [[String: Any]] {
                 
                 // Objects to return
                 let objects: [T] = self.extractObjects(fromJsonRecords: results, following: tableSchema)
                 
                 // Forward objects
-                completion(objects, nil)
+                completion(objects, offset, nil)
             } else if let result = jsonValue {
                 
                 // Objects to return
                 let objects: [T] = self.extractObjects(fromJsonRecords: [result], following: tableSchema)
                 
                 // Forward objects
-                completion(objects, nil)
-                
+                completion(objects, offset, nil)
             } else {
                 // Forward proper error
-                completion([], AirtableResponseError.invalidFormat)
+                completion([], offset, AirtableResponseError.invalidFormat)
             }
         } catch {
             // Forward error handling
-            completion([], error)
+            completion([], nil, error)
         }
     }
     // For each object, extract its id and fields
