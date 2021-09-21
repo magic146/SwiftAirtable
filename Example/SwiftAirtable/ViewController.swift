@@ -69,7 +69,7 @@ extension ViewController {
         self.loadingComponent.addLoadingIndicator()
         
         let table = self.table
-        airtable.fetchAll(table: table) { [weak self] (objects: [AirtablePerson], error: Error?) in
+        airtable.fetchAll(table: table) { [weak self] (objects: [AirtablePerson], offset: String?, error: Error?) in
             
             DispatchQueue.main.async {
                 self?.loadingComponent.removeLoadingIndicators()
