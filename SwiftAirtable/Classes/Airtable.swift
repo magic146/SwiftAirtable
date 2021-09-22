@@ -420,9 +420,6 @@ public struct Airtable: Equatable, Codable {
                         airtableObject[key] = allAttachments
                     }
                 }
-                
-            } else {
-                print("Warning: - Couldn't find fieldName '\(key.fieldName)' in received object (did you use an wrong schema?)")
             }
         })
         return T(withId: id, populatedTableSchemaKeys: airtableObject)
