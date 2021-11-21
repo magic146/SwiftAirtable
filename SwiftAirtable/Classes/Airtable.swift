@@ -138,6 +138,7 @@ extension AirtableTableSchemaFieldKey {
         case singleLineText = "singleLineText"
         case singleSelect = "singleSelect"
         case number = "number"
+        case double = "double"
         case linkToAnotherRecord = "linkToAnotherRecord"
         case dateWithHour = "dateWithHour"
         case attachment = "attachment"
@@ -405,6 +406,7 @@ public struct Airtable: Equatable, Codable {
                 switch key.fieldType {
                 case .singleLineText, .singleSelect: airtableObject[key] = matchingElement.value as? String
                 case .number: airtableObject[key] = matchingElement.value as? Int
+                case .double: airtableObject[key] = matchingElement.value as? Double
                 case .checkbox: airtableObject[key] = (matchingElement.value as? Bool) ?? false
                 case .linkToAnotherRecord: airtableObject[key] = matchingElement.value as? [String]
                 case .dateWithHour:
@@ -434,6 +436,7 @@ public struct Airtable: Equatable, Codable {
             switch element.key.fieldType {
             case .singleLineText, .singleSelect: field[element.key.fieldName] = element.value.stringValue
             case .number: field[element.key.fieldName] = element.value.intValue
+            case .double: field[element.key.fieldName] = element.value.doubleValue
             case .checkbox: field[element.key.fieldName] = element.value.boolValue
             case .linkToAnotherRecord: field[element.key.fieldName] = element.value.arrayValue
             case .dateWithHour:
